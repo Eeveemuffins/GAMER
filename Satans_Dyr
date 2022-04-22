@@ -1,0 +1,91 @@
+import turtle
+import random
+import time
+
+#Dette er spillbrettet. Siden størrelsen er mindre så er spille kjappere men vanskligere.
+
+spillbrett = turtle.Screen()
+spillbrett.title("Satans kjæledyr")
+spillbrett.bgcolor("black")
+spillbrett.setup(width=1000, height=600)
+
+#Dette er slangehode
+
+hode = turtle.Turtle()
+hode.speed(0)
+hode.shape("turtle")
+hode.color("yellow")
+hode.penup()
+hode.goto(0,0)
+
+#Dette er MATEN TIL SATAN
+
+mat = turtle.Turtle()
+mat.speed(0)
+mat.shape("turtle")
+mat.color("red")
+mat.penup()
+mat.goto(0,0)
+
+#Slangehodet stop
+hode.direction = "stop"
+
+#Sette opp the SHMOVMENT!!!
+def go_up():
+    hode.direction = "up"
+def go_down():
+    hode.direction = "down"
+def go_left():
+    hode.direction = "left"
+def go_right():
+    hode.direction = "right"
+
+def move():
+    if hode.direction == "up":
+        y = hode.ycor()
+        hode.sety(y+30)
+    if hode.direction == "down":
+        y = hode.ycor()
+        hode.sety(y-30)
+    if hode.direction == "left":
+        x = hode.xcor()
+        hode.setx(x-30)
+    if hode.direction == "right":
+        x = hode.xcor()
+        hode.setx(x+30)
+spillbrett.listen()
+spillbrett.onkey(go_up, "w")
+spillbrett.onkey(go_left, "a")
+spillbrett.onkey(go_down, "s")
+spillbrett.onkey(go_right, "d")
+segments = []
+
+
+while True:
+    spillbrett.update()
+    if hode.distance(mat) <10:
+        x = random.randint(-500,500 )
+        y = random.randint(-300,300 )
+        mat.goto(x,y)
+
+    # Dette er kroppen
+
+        new_segment = turtle.Turtle()
+        new_segment.speed(0)
+        new_segment.shape("turtle")
+        new_segment.color("red")
+        new_segment.penup()
+        segments.append(new_segment)
+
+    for index in range(len(segments)-1,0,-1):
+
+        x = segments[index-1].xcor()
+        y = segments[index-1].ycor()
+        segments[index].goto(x,y)
+    if len(segments) > 1:
+        x = hode.xcor()
+        y = hode.ycor()
+        segments[0].goto(x,y)
+    time.sleep(0.1)
+
+    move()
